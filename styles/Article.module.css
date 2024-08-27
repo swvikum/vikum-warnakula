@@ -1,0 +1,72 @@
+/* styles/Article.module.css */
+.article {
+  width: 80%; /* Adjust width as needed */
+  margin: 0 auto; /* Center the article */
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background-color: #1e1e1e; /* Slightly lighter background for articles */
+  transition: transform 0.3s;
+  color: #f8f8f2; /* Off-white font color */
+  position: relative; /* Ensure stacking context */
+  opacity: 0.9; /* Slightly transparent */
+  z-index: 1; /* Ensure articles are above background */
+}
+
+.article:hover {
+  transform: scale(1.02);
+}
+
+.article h2 {
+  cursor: pointer;
+  color: #1e90ff; /* Link color */
+  margin: 0.2rem;
+}
+
+.article p {
+  margin: 0.5rem 0;
+}
+
+.article div {
+  margin-top: 1rem;
+}
+
+.date {
+  color: #87cefa; /* Light blue for date */
+}
+
+.description {
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  color: rgb(113, 141, 58);
+}
+
+.code-block {
+  background-color: #282a36; 
+  color: #f8f8f2;
+  padding: 16px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 0.95em; /* Adjust font size if needed */
+  border: 1px solid #44475a; /* Optional: add a border for distinction */
+}
+
+/* Add media query for mobile devices */
+@media (max-width: 600px) {
+  .article {
+    width: 100%; /* Make it take most of the screen width */
+    padding: 0.2rem; /* Reduce padding for smaller screens */
+    z-index: 2; /* Ensure articles are above background */
+  }
+
+  .article h2 {
+    font-size: 1.2em; /* Slightly smaller font size for titles */
+  }
+
+  .article p {
+    margin: 0.20rem 1; /* Reduce margin for paragraphs */
+  }
+
+}
