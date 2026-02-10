@@ -1,0 +1,29 @@
+.shareButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #1e90ff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  font-family: 'Roboto', sans-serif;
+}
+
+.shareButton:hover {
+  background-color: #1873cc;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(30, 144, 255, 0.3);
+}
+
+.shareButton:active {
+  transform: translateY(0);
+}
+
+.icon {
+  font-size: 1rem;
+}

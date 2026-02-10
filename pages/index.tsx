@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
@@ -11,6 +12,8 @@ interface ArticleData {
   date: string;
   description: string;
   content: string;
+  featuredImage?: string;
+  slug: string;
 }
 
 interface HomeProps {
@@ -18,29 +21,59 @@ interface HomeProps {
 }
 
 const Home: React.FC<HomeProps> = ({ articles }) => {
-  const [expandedArticleIndex, setExpandedArticleIndex] = useState<number | null>(null);
-  const [headerHeight, setHeaderHeight] = useState(0);
+  const router = useRouter();
+  const [expandedArticleSlug, setExpandedArticleSlug] = useState<string | null>(null);
 
-  const toggleArticle = (index: number) => {
-    setExpandedArticleIndex(index === expandedArticleIndex ? null : index);
+  // Read article slug from URL query params on mount and when router is ready
+  useEffect(() => {
+    if (router.isReady) {
+      const articleSlug = router.query.article as string | undefined;
+      if (articleSlug) {
+        setExpandedArticleSlug(articleSlug);
+        // Scroll to the article after a short delay to ensure it's rendered
+        setTimeout(() => {
+          const element = document.getElementById(`article-${articleSlug}`);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }, 100);
+      }
+    }
+  }, [router.isReady, router.query.article]);
+
+  const toggleArticle = (slug: string) => {
+    const newSlug = expandedArticleSlug === slug ? null : slug;
+    setExpandedArticleSlug(newSlug);
+    
+    // Update URL without page reload
+    if (newSlug) {
+      router.push(`/?article=${slug}`, undefined, { shallow: true });
+    } else {
+      router.push("/", undefined, { shallow: true });
+    }
   };
 
   return (
-      <div className={styles.container}>
-        <div className={styles.background}></div> {/* Background Image */}
-        <Header setHeaderHeight={setHeaderHeight} />
-        {articles.map((article, index) => (
+    <div className={styles.container}>
+      <div className={styles.background}></div>
+      <Header setHeaderHeight={() => {}} />
+      <div className={styles.articlesGrid}>
+        {articles.map((article) => (
+          <div key={article.slug} id={`article-${article.slug}`}>
             <Article
-                key={index}
-                title={article.title}
-                date={article.date}
-                description={article.description}
-                content={article.content}
-                isExpanded={expandedArticleIndex === index}
-                onClick={() => toggleArticle(index)}
+              slug={article.slug}
+              title={article.title}
+              date={article.date}
+              description={article.description}
+              content={article.content}
+              featuredImage={article.featuredImage}
+              isExpanded={expandedArticleSlug === article.slug}
+              onClick={() => toggleArticle(article.slug)}
             />
+          </div>
         ))}
       </div>
+    </div>
   );
 };
 
@@ -52,12 +85,15 @@ export async function getStaticProps() {
     const filePath = path.join(articlesDir, filename);
     const fileContents = fs.readFileSync(filePath, "utf8");
     const { data, content } = matter(fileContents);
+    const slug = filename.replace(/\.md$/, "");
 
     return {
       title: data.title || "",
       date: data.date || "",
       description: data.description || "",
       content: content || "",
+      featuredImage: data.featuredImage || null,
+      slug,
     };
   });
 

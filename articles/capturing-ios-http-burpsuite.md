@@ -2,6 +2,7 @@
 title: "Capturing iOS Application’s HTTP Traffic using Burp Suite"
 date: "April 02, 2021"
 description: "Guide on capturing HTTP traffic from iOS applications using Burp Suite."
+featuredImage: "/article-images/burp-suite-setup.jpg"
 ---
 
 Capturing and analyzing HTTP traffic is crucial for mobile testing and cybersecurity. Burp Suite is a powerful tool that can help you intercept and inspect HTTP traffic from iOS applications. Follow the steps below to set up Burp Suite for capturing HTTP traffic on your iOS device.
@@ -13,6 +14,8 @@ Capturing and analyzing HTTP traffic is crucial for mobile testing and cybersecu
 2. **Configure Burp Suite**:
    - Open Burp Suite and navigate to the Proxy tab.
    - Click on the "Options" tab and set the interface to listen on 127.0.0.1:8080 (or your preferred port).
+   
+   ![Burp Suite Setup](/article-images/burp-suite-setup.jpg)
 
 3. **Set up Proxy on iOS Device**:
    - Go to **Settings > Wi-Fi** and select the connected Wi-Fi network.
